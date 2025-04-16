@@ -90,12 +90,11 @@ class CarListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Manufacturer.objects.all()
-        name = self.request.GET.get("name", "")
-        if name:
-            return queryset.filter(name__icontains=name)
+        queryset = Car.objects.all()
+        model = self.request.GET.get("model", "")
+        if model:
+            return queryset.filter(model__icontains=model)
         return queryset
-
 
 class CarDetailView(LoginRequiredMixin, generic.DetailView):
     model = Car
@@ -142,6 +141,7 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
 class DriverDetailView(LoginRequiredMixin, generic.DetailView):
     model = Driver
     queryset = Driver.objects.all().prefetch_related("cars__manufacturer")
+    success_url = reverse_lazy("taxi:driver-list")
 
 
 class DriverCreateView(LoginRequiredMixin, generic.CreateView):
