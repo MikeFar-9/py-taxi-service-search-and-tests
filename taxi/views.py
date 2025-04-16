@@ -132,9 +132,9 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        title = self.request.GET.get("title")
-        if title:
-            return self.model.objects.filter(title__icontains=title)
+        username = self.request.GET.get("username")
+        if username:
+            return self.model.objects.filter(username__icontains=username)
         return self.model.objects.all()
 
 
